@@ -21,7 +21,12 @@ function renderApp(props, res) {
 }
 
 function handleRender(req, res) {
- if (/build/.test(req.url)) {
+  if (req.url === '/favicon.ico') {
+    write('haha', 'text/plain', res)
+  }
+
+  // serve JavaScript assets
+  else if (/__build__/.test(req.url)) {
     fs.readFile(`.${req.url}`, (err, data) => {
       write(data, 'text/javascript', res)
     })

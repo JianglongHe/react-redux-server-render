@@ -5,10 +5,10 @@ var webpack = require('webpack')
 module.exports = {
   entry: './client.js',
   output: {
-    path: __dirname + '/build',
-    filename: 'bundle.js',
-    chunkFilename: 'bundle.js',
-    publicPath: '/build'
+    path: __dirname + '/__build__',
+    filename: '[name].js',
+    chunkFilename: '[id].chunk.js',
+    publicPath: '/__build__/'
   },
 
   module: {
