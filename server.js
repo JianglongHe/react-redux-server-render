@@ -5,7 +5,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import fs from 'fs';
 import { renderToString } from 'react-dom/server'
-import App from './containers/App';
 import { match, RoutingContext } from 'react-router'
 import { createPage, write, writeError, writeNotFound, redirect } from './utils/server-utils'
 import routes from './src/routes/RootRoute'
