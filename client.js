@@ -1,22 +1,17 @@
 import React from 'react'
+import { match, Router } from 'react-router'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import App from './src/App'
-import rootReducer from './reducers'
+import { createHistory } from 'history'
+import routes from './src/routes/RootRoute'
 
-// Grab the state from a global variable injected into the server-generated HTML
-const preloadedState = window.__PRELOADED_STATE__
+const { pathname, search, hash } = window.location
+const location = `${pathname}${search}${hash}`
 
-// Allow the passed state to be garbage-collected
-delete window.__PRELOADED_STATE__
-
-// Create Redux store with initial state
-const store = createStore(rootReducer, preloadedState)
-
-render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById('app')
-)
+// calling `match` is simply for side effects of
+// loading route/component code for the initial location
+match({ routes, location }, () => {
+  render(
+    <Router routes={routes} history={createHistory()} />,
+    document.getElementById('app')
+  )
+})

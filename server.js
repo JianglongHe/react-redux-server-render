@@ -3,37 +3,42 @@ import Express from 'express';
 import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import fs from 'fs';
 import { renderToString } from 'react-dom/server'
 import App from './containers/App';
-import rootReducer from './reducers'
+import { match, RoutingContext } from 'react-router'
+import { createPage, write, writeError, writeNotFound, redirect } from './utils/server-utils'
+import routes from './src/routes/RootRoute'
 const app = Express();
 const port = 3000;
 
 app.use(handleRender);
-function handleRender(req, res) {
-  const store = createStore(rootReducer);
-  const html = renderToString(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  )
-  const initialState = store.getState();
-  res.send(renderFullPage(html, initialState));
+
+function renderApp(props, res) {
+  const markup = renderToString(<RoutingContext {...props}/>)
+  const html = createPage(markup)
+  write(html, 'text/html', res)
 }
 
-function renderFullPage(html, initialState) {
-  return `
-   <!doctype html>
-   <html>
-     <head>
-       <title>Redux Universal Example</title>
-     </head>
-     <body>
-       <div id="app">${html}</div
-       <script src="/build/bundle.js"></script>
-     </body>
-   </html>
-   `
+function handleRender(req, res) {
+ if (/build/.test(req.url)) {
+    fs.readFile(`.${req.url}`, (err, data) => {
+      write(data, 'text/javascript', res)
+    })
+  }
+
+  else {
+    match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+      if (error)
+        writeError('ERROR!', res)
+      else if (redirectLocation)
+        redirect(redirectLocation, res)
+      else if (renderProps)
+        renderApp(renderProps, res)
+      else
+        writeNotFound(res)
+    })
+  }
 }
 
 app.listen(port);
