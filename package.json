@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production webpack --progress && babel-node server.js"
+    "build": "NODE_ENV=production && rm -rf ./build  && webpack --progress",
+    "start": "babel-node server.js"
   },
   "dependencies": {
     "babel": "^5.8.34",

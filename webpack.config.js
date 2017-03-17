@@ -6,7 +6,7 @@ module.exports = {
   entry: './client.js',
   output: {
     path: __dirname + '/build',
-    filename: '[name].js',
+    filename: 'bundle.js',
     chunkFilename: 'bundle.js',
     publicPath: '/build'
   },
