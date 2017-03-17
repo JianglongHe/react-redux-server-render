@@ -1,8 +1,7 @@
 // polyfill webpack require.ensure
 if (typeof require.ensure !== 'function') require.ensure = (d, c) => c(require)
 
-import App from '../shared/components/App'
-import Index from '../shared/components/Index'
+import App from '../shared/containers/App'
 
 export default {
   path: '/',
@@ -10,11 +9,9 @@ export default {
   getChildRoutes(location, cb) {
     require.ensure([], (require) => {
       cb(null, [
-        require('./AboutRoute')
+        require('./AboutRoute'),
+        require('./HomeRoute')
       ])
     })
-  },
-  indexRoute: {
-    component: Index
   }
 }

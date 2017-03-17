@@ -1,4 +1,4 @@
-import About from '../shared/components/About'
+import About from '../shared/containers/About'
 
 export default {
   path: 'about',
