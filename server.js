@@ -13,18 +13,12 @@ const port = 3000;
 
 app.use(handleRender);
 
-function renderApp(props, res) {
-  const markup = renderToString(<RoutingContext {...props}/>)
-  const html = createPage(markup)
-  write(html, 'text/html', res)
-}
-
 function handleRender(req, res) {
   if (req.url === '/favicon.ico') {
     write('haha', 'text/plain', res)
   }
 
-  // serve JavaScript assets
+  // server JavaScript assets
   else if (/__build__/.test(req.url)) {
     fs.readFile(`.${req.url}`, (err, data) => {
       write(data, 'text/javascript', res)
@@ -43,6 +37,18 @@ function handleRender(req, res) {
         writeNotFound(res)
     })
   }
+}
+
+function renderApp(props, res) {
+  let initialState = { counter }
+  const store = createStore(counterApp, initialState)
+  const markup = renderToString(
+    <Provider store={store}>
+      <RoutingContext {...props}/>
+    </Provider>
+  )
+  const html = createPage(markup)
+  write(html, 'text/html', res)
 }
 
 app.listen(port);
