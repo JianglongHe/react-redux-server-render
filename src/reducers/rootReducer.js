@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import selectedsubreddit from './selectedsubreddit'
+import { home } from '../shared/reducers'
 
 const rootReducer = combineReducers({
-  selectedsubreddit
+    home
 })
 
 export default rootReducer
