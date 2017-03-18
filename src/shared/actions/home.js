@@ -1,8 +1,8 @@
-import { REQUEST_POSTS } from '../../constant'
+import { GET_PROFILE_SUCCESS } from '../../constant'
 
-export function profile() {
+export function getProfile() {
     return {
-        type: REQUEST_POSTS,
+        type: GET_PROFILE_SUCCESS,
         payload: "long"
     }
 }
