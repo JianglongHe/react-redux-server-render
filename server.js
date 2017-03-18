@@ -8,6 +8,7 @@ import { renderToString } from 'react-dom/server'
 import { match, RoutingContext } from 'react-router'
 import { createPage, write, writeError, writeNotFound, redirect } from './utils/server-utils'
 import routes from './src/routes/RootRoute'
+import store from './src/store'
 const app = Express();
 const port = 3000;
 
@@ -40,8 +41,6 @@ function handleRender(req, res) {
 }
 
 function renderApp(props, res) {
-  let initialState = { counter }
-  const store = createStore(counterApp, initialState)
   const markup = renderToString(
     <Provider store={store}>
       <RoutingContext {...props}/>

@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createHistory } from 'history'
 import routes from './src/routes/RootRoute'
-
+import store from './src/store'
 const { pathname, search, hash } = window.location
 const location = `${pathname}${search}${hash}`
 
